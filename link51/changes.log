@@ -1,0 +1,19 @@
+0.5.6 -- New misc.c. Speed improved. link51.mak - /DHEAP_DBG=1
+         Changed collect.c -- VALIDATE_HEAP_PTR is commented out
+	 as this is the major cause of the big slow down of the debug ver.
+0.5.5 -- Major bug: ProcessFixup() doesn't add the offset of the
+	 fixup so failed (_extern+1) for example. Fixed!
+0.5.4 -- Major bug: In process.c ProcessModule() worked with an invalid
+	 nExternIndex. This worked if all the externs were defined before
+	 any publics. Fixed!
+      -- BuildOutputFileName() failed to build proper file name under
+         some vague circumstances, Fixed!
+0.5.3 -- ??LAST_DATA instead of __LAST_DATA
+0.5.2 -- Bug: invalid output file name. Fixed!
+      -- __LAST_DATA extern resolved.
+0.5.1 -- Bug: PrepareDSeg() failure to combine dseg chunks as the
+         bit segment start is improperly checked. Fixed!
+0.5.0 -- "Smart dseg" option added.
+0.4.1 -- Checking for same segments for	an extern/public pair.
+0.4.0 -- Log started.
+
