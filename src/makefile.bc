@@ -1,0 +1,84 @@
+##############################################################################
+# makefile for A51
+#
+#
+# Command line parameters
+#   - to produce a debugable executable : "make DEBUG=0"
+#   will be compiled with no optimizations and full debug info
+#
+#   - to produce a beta version : "make DEBUG=1"
+#   wil be compiled with debug flags, but not debug info
+#
+# NOTE:
+#   If you change "a.y" you must copy BISON.SIM from this directory
+#   over the original BISON.SIM. The original would be in
+#   /usr/lib/ or /djgpp/lib  (Linux or DOS respectively)
+##############################################################################
+
+CC = bcc
+
+OBJS = amain.obj  asm.obj  a_tab.obj  cmdtab.obj  err.obj  ident.obj \
+       idtab.obj  minilex.obj  scan.obj  genobj.obj xref.obj \
+       misc.obj ltoa.obj debug.obj findf.obj
+
+###########################
+# Description of options
+#
+# -v -y  Turn on debug information
+# -Ff    Automatic far data. In debug version the data segment exceeds
+#        64K, so we need this option in that case only
+# -N     Check stack overflow
+# -O2    Optimize for speed
+# -d     Merge duplicate strings
+# -mc    Compact model : far data pointers, near code pointers 
+###########################
+
+COMMONF = -d -mc
+
+!IFNDEF DEBUG
+CFLAGS = $(COMMONF) -O2 
+!ELSE
+!IF $(DEBUG) == 0
+CFLAGS = $(COMMONF) -N -Ff -v -y -D_DEBUG -DA_DEBUG -DHEAP_DBG=0 -DYYDEBUG=1
+!ELSE
+CFLAGS = $(COMMONF) -N -Ff -D_DEBUG -DA_DEBUG -DYYDEBUG=1
+!ENDIF
+!ENDIF
+
+LFLAGS = $(CFLAGS)
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $<
+
+all: a51.exe
+
+a51.exe : ctbl.inc uptab.inc errmsg.inc a_tab.h $(OBJS)
+	$(CC) $(LFLAGS) -e$@ @&&|
+$(OBJS)
+|
+
+ctbl.inc : gentbl.exe
+	gentbl > ctbl.inc
+
+uptab.inc : genup.exe
+	genup > uptab.inc
+
+errmsg.inc : errmsg.txt generr.exe
+	generr < errmsg.txt > errmsg.inc
+
+a_tab.c a_tab.h : a.y
+	bison -d a.y -o a_tab.c
+
+gentbl.exe : gentbl.c
+	$(CC) -egentbl.exe gentbl.c
+
+genup.exe : genup.c
+	$(CC) -egenup.exe genup.c
+
+generr.exe : generr.c
+	$(CC) -egenerr.exe generr.c
+
+clean :
+	del *.obj
+        del *.exe
+

@@ -1,0 +1,82 @@
+##############################################################################
+# makefile for A51
+#
+#
+# Command line parameters
+#   - to produce a debugable executable : "make DEBUG=0"
+#   will be compiled with no optimizations and full debug info
+#
+#   - to produce a beta version : "make DEBUG=1"
+#   wil be compiled with debug flags, but not debug info
+#
+# NOTE:
+#   If you change "a.y" you must copy BISON.SIM from this directory
+#   over the original BISON.SIM. The original would be in
+#   /usr/lib/ or /djgpp/lib  (Linux or DOS respectively)
+##############################################################################
+
+CC = cl
+
+OBJS = amain.obj  asm.obj  a_tab.obj  cmdtab.obj  err.obj  ident.obj \
+       idtab.obj  minilex.obj  scan.obj  genobj.obj xref.obj \
+       misc.obj ltoa.obj debug.obj findf.obj dirent.obj
+
+###########################
+# Description of options
+#
+# -Zi  debug information
+# -O2  optimize for speed
+# -GF  Read-only sting pooling: merge same strings and put them in
+#      read-only memory. -O2 also merges strings, but does not make them
+#      constant. I think that if strings are being merged they must be
+#      explicitly constant.  
+###########################
+
+COMMONF = -GF -I.
+
+!IFNDEF DEBUG
+CFLAGS = $(COMMONF) -O2 
+!ELSE
+!IF $(DEBUG) == 0
+CFLAGS = $(COMMONF) -Zi -D_DEBUG -DA_DEBUG -DHEAP_DBG=0 -DYYDEBUG=1
+!ELSE
+CFLAGS = $(COMMONF) -D_DEBUG -DA_DEBUG -DYYDEBUG=1
+!ENDIF
+!ENDIF
+
+LFLAGS = $(CFLAGS)
+
+.c.obj:
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+all: a51.exe
+
+a51.exe : ctbl.inc uptab.inc errmsg.inc a_tab.h $(OBJS)
+	$(CC) $(LFLAGS) -o $@ $(OBJS)
+
+ctbl.inc : gentbl.exe
+	gentbl > ctbl.inc
+
+uptab.inc : genup.exe
+	genup > uptab.inc
+
+errmsg.inc : errmsg.txt generr.exe
+	generr < errmsg.txt > errmsg.inc
+
+a_tab.c a_tab.h : a.y
+	bison -d a.y -o a_tab.c
+
+gentbl.exe : gentbl.c
+	$(CC) -o gentbl.exe gentbl.c
+
+genup.exe : genup.c
+	$(CC) -o genup.exe genup.c
+
+generr.exe : generr.c
+	$(CC) -o generr.exe generr.c
+
+clean :
+	del *.obj
+        del *.exe
+        del *.pdb
+

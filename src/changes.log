@@ -1,0 +1,43 @@
+0.38    - Added case sensitivity support for input file names.
+	  If input extension is omitted a file search is conducted.
+        - Options CAN'T start with '/' anymore (UNIX compatibility)
+0.37.1  - minor changes in misc.c to improve ANSI compatibility
+	- increase temp buffer in ultoa()
+0.37    - Ported to Linux
+0.36    - Made nice makefiles and improved portability
+0.35.1  - Allow list of symbols in "public" and "extern"
+0.34.1  - Generate warning on construction "extern data(x)"
+0.33.3  - Bug fixed: Aliasing of externals
+0.33.2  - Bug fixed: Undefined symbols in EQU were not reported
+0.33.1  - Do not generate DSEG chunk with 0 size if there is no DSEG data
+          at all
+0.32    - Bug fixed: Tables in listing generated with '\n' instead of '\n\r'
+        - Added titles to tables in listing
+        - Added listing of symbols per segment sorted by value
+0.31.2  - Bug fixed: short jump to undefined generates "too large offset"
+0.31    - Reduced the number of errors displayed for a single undefined symbol
+0.30.2  - Added full support for relocatable symbols in expressions and
+          equates
+0.29    - Added -h/-? command line option
+0.28.2  - Improved heap diagnostics
+0.28.1  - Improved cross reference in listing
+0.27    - Segment statistics in listing file
+0.26.2  - Symbol table & cross reference to use maximum ident & file name
+          length for better printing
+0.26.1  - Added symbol table in listing
+        - Added cross reference in listing
+0.25    - Added search path for include files (-I<dir> option)
+0.24.2  - Added heap verification with misc.c
+0.24.1  - Bug fixed: short jumps out of range were not reported as errors
+0.23    - print the title to stdout
+0.22    - return ERRORLEVEL in case of assembly errors
+        - specify output directory
+0.21    - Case insensitivity of a symbol controlled individually by a flag:
+          bNoCase
+        - Predefined 8051 SFR-s to be case insensitive
+        - Fixed BUG: Incorrect error message if undefined symbol in relative
+          expression (e.g "sjmp undef")
+0.20    - Made A51 more ANSI compliant: compiled with GCC
+        - Corrected GENOBJ.C so the object format does not change across
+          platforms with different byte order and compilers with different
+          structure alignment.

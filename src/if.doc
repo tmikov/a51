@@ -1,0 +1,32 @@
+
+if 1
+  if 0
+  elseif 1
+  endif
+else
+  if 1
+  elseif 1
+  elseif 0
+  else
+  endif
+endif
+
+mode     // skip = 0
+weare
+expr
+
+if:     push cur
+        cur->mode = stack->mode && expr
+        cur->expr = expr
+
+else:   if stack is empty then error
+        cur->mode = stack->mode && !cur->expr
+
+endif:  if stack is empty then error
+        pop cur
+
+elseif: if stack is empty then error
+        if cur->weare == ELSE then error
+        cur->mode = stack->mode && !cur->expr && expr
+        cur->expr = cur->expr || expr
+

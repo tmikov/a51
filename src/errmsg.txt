@@ -1,0 +1,63 @@
+// errors
+ERR_CONST               "'%s' is a constant"
+ERR_EXTERN              "'%s' is external"
+ERR_DIFF_SEG            "'%s' is from different segment"
+ERR_NOT_DEFINED         "'%s' not defined"
+ERR_NOT_IN_CSEG         "Allowed only in CSEG"
+ERR_NOT_IN_BSEG         "Allowed only in BSEG"
+ERR_ADD_RELOC           "Can't add relocatable symbols"
+ERR_SUB_EXTERN          "Can't subtract external symbols",
+ERR_SUB_RELOC           "Can't subtract relocatable symbols",
+ERR_SUB_DIFF_SEG        "Can't subtract symbols from different segments",
+ERR_DIV_ZERO            "Division by zero",
+ERR_INV_ADDR_MODE       "Illegal addressing mode for the instruction",
+ERR_INV_11              "Invalid 11-bit expression",
+ERR_INV_SEG_ADDR        "Invalid address for segment",
+ERR_INV_BIN_NUM         "Invalid binary number",
+ERR_INV_BIT_NUM         "Invalid bit number",
+ERR_INV_DEC_NUM         "Invalid decimal number",
+ERR_INV_INDEX_REG       "Invalid index register",
+ERR_INV_INSTR           "Invalid instruction '%s'",
+ERR_INV_NUM_CONST       "Invalid numeric constant",
+ERR_INV_OCT_NUM         "Invalid octal number",
+ERR_INV_OP              "Invalid operand",
+ERR_INV_RELOC_EXPR      "Invalid relocatable expression",
+ERR_INV_USING           "invalid value for 'Using'",
+ERR_LINE_LONG           "Line too long",
+ERR_NEED_CSEG           "Need CSEG for instructions",
+ERR_NO_SEG              "No segment defined",
+ERR_LARGE_OFS           "Offset too large",
+ERR_PUB_EXT_CONFL       "public/extrn conflict for '%s'", pIdent->szName );
+ERR_SYM_REDEF           "Symbol '%s' already defined", pIdent->szName );
+ERR_SYM_UNDEF           "Symbol '%s' is not defined", pIdent->szName );
+ERR_SYNTAX              "Syntax error" );
+ERR_MANY_OPS            "Too many operands" );
+ERR_OPEN_COND           "Unclosed conditionals on EOF" );
+ERR_INV_ELSE            "Unmatched ELSE" );
+ERR_INV_ENDIF           "Unmatched ENDIF" );
+ERR_OPEN_STRING         "Unterminated string constant"
+ERR_UNKNOWN_VALUE       "Value of '%s' is unknown"
+ERR_NO_RELOC            "Need a constant. '%s' is relocatable"
+ERR_RELOC_EXPR          "Need a constant. The expression is relocatable"
+ERR_PRIMARY_CTRL        "This directive must precede all other statements"
+ERR_BAD_SEGMENT         "Operand has invalid segment"
+ERR_NEED_CONST          "Need a constant"
+
+// fatal errors
+FATAL_OPEN_INCLUDE      "Can't open include file: '%s'", szFileName );
+FATAL_READ_FILE         "Error reading file" );
+FATAL_NO_MEMORY         "Out of memory" );
+FATAL_MANY_ERRS         "Too many error messages" );
+FATAL_MANY_FIXUPS       "Too many fixups" );
+FATAL_MANY_NEST_COND    "Too many nested conditionals" );
+FATAL_MANY_WARNS        "Too many warning messages" );
+
+// warnings
+WARN_HIGH_LOW           "HIGH LOW x = 0"
+WARN_LONG_IDENT         "Identifier too long. Truncated"
+WARN_LOW_HIGH           "LOW HIGH x = 0"
+WARN_SEG_CONFL          "Segment conflict"
+WARN_TRUNC_WORD         "WORD value truncated to BYTE. May lose info"
+WARN_UNSUP_DIRECTIVE    "Unsupported directive. Ignored"
+WARN_SUB_CONST_REL      "Subtracting relocatable from constant"
+WARN_EXTERN_IDENT       "identifier 'extern' used. Possible mismatch with 'extrn'"

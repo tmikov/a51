@@ -1,0 +1,44 @@
+##############################################################################
+# makefile for MLINK
+#
+#
+# Command line parameters
+#   - to produce a debugable executable : "make DEBUG=0"
+#   will be compiled with no optimizations and full debug info
+#
+#   - to produce a beta version : "make DEBUG=1"
+#   wil be compiled with debug flags, but not debug info
+##############################################################################
+
+CC = cl
+
+OBJS = mlink.obj genbin.obj debug.obj
+
+!IFNDEF DEBUG
+CFLAGS = -O2 
+LFLAGS =
+!ELSE
+!IF $(DEBUG) == 0
+CFLAGS = -Zi -D_DEBUG -DA_DEBUG -DHEAP_DBG=0 -DYYDEBUG=1
+LFLAGS = -Zi
+!ELSE
+CFLAGS = -D_DEBUG -DA_DEBUG -DHEAP_DBG=1 -DYYDEBUG=1
+LFLAGS =
+!ENDIF
+!ENDIF
+
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $<
+
+all: mlink.exe
+
+mlink.exe : $(OBJS)
+	$(CC) $(LFLAGS) -o $@ $(OBJS)
+
+.PHONY : clean
+
+clean:
+	del *.obj
+        del *.exe
+          
