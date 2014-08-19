@@ -60,7 +60,7 @@ int yylex ( void );
 %%
 
 file
-  : prim_ctrls { AfterPrimaryControls() } program
+  : prim_ctrls { AfterPrimaryControls(); } program
   ;
 
 prim_ctrls
@@ -87,24 +87,24 @@ line
   | directive    '\n'
   | LEX_INCLUDE  '('  { GetIncludeName(); yyclearin; } ')' '\n'
     { GenListingLine(); Include(); }
-  | LEX_IF const_expr  '\n'     { DoIf( $2.uValue != 0 ) }
-  | LEX_IFDEF LEX_IDENT '\n'    { DoIf( $2->e.rType != RELOC_UNDEF ) }
-  | LEX_IFNDEF LEX_IDENT '\n'   { DoIf( $2->e.rType == RELOC_UNDEF ) }
-  | LEX_ELSE  '\n'    { DoElse() }                            
-  | LEX_ENDIF '\n'    { DoEndif() }
+  | LEX_IF const_expr  '\n'     { DoIf( $2.uValue != 0 ); }
+  | LEX_IFDEF LEX_IDENT '\n'    { DoIf( $2->e.rType != RELOC_UNDEF ); }
+  | LEX_IFNDEF LEX_IDENT '\n'   { DoIf( $2->e.rType == RELOC_UNDEF ); }
+  | LEX_ELSE  '\n'    { DoElse(); }
+  | LEX_ENDIF '\n'    { DoEndif(); }
 
   // error handling
   | error        '\n' { yyerrok; PrintError( ERR_SYNTAX ); }
   ;
 
 label
-  : LEX_IDENT ':'      { PutLabel( $1 ) } 
+  : LEX_IDENT ':'      { PutLabel( $1 ); }
   ;
 
   // assembler directives
 directive
-  : LEX_NOMOD51  { bNoMod51 = TRUE } 
-  | unsup_dir    { PrintWarning( WARN_UNSUP_DIRECTIVE ) }
+  : LEX_NOMOD51  { bNoMod51 = TRUE; }
+  | unsup_dir    { PrintWarning( WARN_UNSUP_DIRECTIVE ); }
   ;
 
 // unsupported directives
@@ -125,7 +125,7 @@ unsup_dir
 
 
 pseudo_instr
-  : LEX_ORG    expr         { Org( &$2 ) }
+  : LEX_ORG    expr         { Org( &$2 ); }
   | LEX_USING  const_expr
     {
       if ($2.uValue > 3)
@@ -133,17 +133,17 @@ pseudo_instr
       else
         Using = $2.uValue;
     }
-  | LEX_END                      { YYACCEPT } // TODO: warn if in include!!!
-  | seg_name LEX_AT expr         { StartSeg( $1 ); Org( &$3 ) }
-  | seg_name                     { StartSeg( $1 ) }
+  | LEX_END                      { YYACCEPT; } // TODO: warn if in include!!!
+  | seg_name LEX_AT expr         { StartSeg( $1 ); Org( &$3 ); }
+  | seg_name                     { StartSeg( $1 ); }
 
   | LEX_EXTRN extrn_list
   | LEX_PUBLIC public_list
-  | LEX_NAME   LEX_IDENT             { PrintWarning( WARN_UNSUP_DIRECTIVE ) }
+  | LEX_NAME   LEX_IDENT             { PrintWarning( WARN_UNSUP_DIRECTIVE ); }
   ;
 
 gen_ds
-  : const_expr         { UseSpace( $1.uValue ) }
+  : const_expr         { UseSpace( $1.uValue ); }
   ;
 
 gen_dbit
@@ -164,7 +164,7 @@ public_list
   ;
 
 public_def
-  : LEX_IDENT  { Public( $1 ) }
+  : LEX_IDENT  { Public( $1 ); }
   ;
 
 extrn_list
@@ -173,16 +173,16 @@ extrn_list
   ;
 
 extrn_def
-  : seg_ident '(' LEX_IDENT ')'      { Extern( $3, $1 ) }
-  | LEX_IDENT                        { Extern( $1, O51_NOSEG ) }
+  : seg_ident '(' LEX_IDENT ')'      { Extern( $3, $1 ); }
+  | LEX_IDENT                        { Extern( $1, O51_NOSEG ); }
   ;
 
 seg_name
-  : LEX_CSEG  { $$ = O51_CSEG }
-  | LEX_DSEG  { $$ = O51_DSEG }
-  | LEX_ISEG  { $$ = O51_ISEG }
-  | LEX_BSEG  { $$ = O51_BSEG }
-  | LEX_XSEG  { $$ = O51_XSEG }
+  : LEX_CSEG  { $$ = O51_CSEG; }
+  | LEX_DSEG  { $$ = O51_DSEG; }
+  | LEX_ISEG  { $$ = O51_ISEG; }
+  | LEX_BSEG  { $$ = O51_BSEG; }
+  | LEX_XSEG  { $$ = O51_XSEG; }
   ;
 
 // a definition e.g (X equ 10)
@@ -192,15 +192,15 @@ definition
       // Warning on common error: "extern data(x)"
       if (_stricmp( $1->szName, "extern" ) == 0)
         PrintWarning( WARN_EXTERN_IDENT );
-      Define( $1, $2, &$3 )
+      Define( $1, $2, &$3 );
     }
-  | LEX_IDENT { PutLabel( $1 ) } def_data
+  | LEX_IDENT { PutLabel( $1 ); } def_data
   | def_data
   ;
 
 def_data
-  : LEX_DB { CheckCodeSeg() } db_list
-  | LEX_DW { CheckCodeSeg() } dw_list 
+  : LEX_DB { CheckCodeSeg(); } db_list
+  | LEX_DW { CheckCodeSeg(); } dw_list
   | LEX_DS   gen_ds
   | LEX_DBIT gen_dbit
   ;
@@ -225,36 +225,36 @@ dw_val
   ;
 
 seg_ident
-  : LEX_CODE      { $$ = O51_CSEG }
-  | LEX_DATA      { $$ = O51_DSEG }
-  | LEX_IDATA     { $$ = O51_ISEG }
-  | LEX_BIT       { $$ = O51_BSEG }
-  | LEX_XDATA     { $$ = O51_XSEG }
+  : LEX_CODE      { $$ = O51_CSEG; }
+  | LEX_DATA      { $$ = O51_DSEG; }
+  | LEX_IDATA     { $$ = O51_ISEG; }
+  | LEX_BIT       { $$ = O51_BSEG; }
+  | LEX_XDATA     { $$ = O51_XSEG; }
   ;
 
 // a qualifier for a definition
 def_qual
-  : LEX_EQU       { $$ = O51_NOSEG }
-  | LEX_SET       { $$ = O51_NOSEG | 0x8000 }
+  : LEX_EQU       { $$ = O51_NOSEG; }
+  | LEX_SET       { $$ = O51_NOSEG | 0x8000; }
   | seg_ident
   ;
 
 instruction
-  : instr ops '\n' { Compile( $1 ) }
+  : instr ops '\n' { Compile( $1 ); }
 
   // error handling
   | instr error '\n'
-    { PrintError( ERR_INV_OP ) }
+    { PrintError( ERR_INV_OP ); }
   | LEX_IDENT
     {
       PrintError( ERR_INV_INSTR, $1->szName );
-      OpCount = 0
+      OpCount = 0;
     }
     ops '\n' // anyway parse the operands
   ;
 
 instr
-  : LEX_INSTR { OpCount = 0 }
+  : LEX_INSTR { OpCount = 0; }
   ;
 
 ops
@@ -268,12 +268,12 @@ ops_tail
   ;
 
 op
-  : op_expr      { PutOp( &$1 ) }
+  : op_expr      { PutOp( &$1 ); }
   ;
 
 // an expression whose value must be known at pass 1
 const_expr
-  : { bNeedConst = TRUE } e1
+  : { bNeedConst = TRUE; } e1
     {
       UINT dummy;
       $$ = GetConstValue( &$2, &dummy ) ? $2 : EmptyExpr;
@@ -283,7 +283,7 @@ const_expr
 // an expression in an operand   
 op_expr
   : LEX_RN
-    { $$ = EmptyExpr; $$.addr = OP_RN; $$.uValue = $1 }
+    { $$ = EmptyExpr; $$.addr = OP_RN; $$.uValue = $1; }
   | '@' LEX_RN
     {
       $$ = EmptyExpr;
@@ -293,26 +293,26 @@ op_expr
         PrintError( ERR_INV_INDEX_REG );
     }
   | '@' LEX_A '+' LEX_DPTR
-    { $$ = EmptyExpr; $$.addr = OP_AT_A_DPTR }
+    { $$ = EmptyExpr; $$.addr = OP_AT_A_DPTR; }
   | '@' LEX_A '+' LEX_PC
-    { $$ = EmptyExpr; $$.addr = OP_AT_A_PC }
+    { $$ = EmptyExpr; $$.addr = OP_AT_A_PC; }
   | '@' LEX_DPTR
-    { $$ = EmptyExpr; $$.addr = OP_AT_DPTR }
+    { $$ = EmptyExpr; $$.addr = OP_AT_DPTR; }
   | LEX_DPTR
-    { $$ = EmptyExpr; $$.addr = OP_DPTR }
+    { $$ = EmptyExpr; $$.addr = OP_DPTR; }
   | LEX_A
-    { $$ = EmptyExpr; $$.addr = OP_A }
+    { $$ = EmptyExpr; $$.addr = OP_A; }
   | LEX_C
-    { $$ = EmptyExpr; $$.addr = OP_C }
+    { $$ = EmptyExpr; $$.addr = OP_C; }
   | LEX_AB
-    { $$ = EmptyExpr; $$.addr = OP_AB }
+    { $$ = EmptyExpr; $$.addr = OP_AB; }
   | '#' expr           { $$ = $2; $$.addr = OP_IMM; }
   | '/' expr           { $$ = $2; $$.addr = OP_NOT_BIT; $$.seg = O51_BSEG; }
   | expr               { $$ = $1; $$.addr = OP_DIR; }
   ;
 
 expr
-  : { bNeedConst = FALSE; } e1 { $$ = $2 }
+  : { bNeedConst = FALSE; } e1 { $$ = $2; }
   ;
 
 // NOTE: bNeedConst must have a valid value any time before we call
@@ -347,13 +347,13 @@ e1
   | LEX_HIGH e1            { Expr( &$$, &$2, NULL, LEX_HIGH ); }
   | LEX_LOW e1             { Expr( &$$, &$2, NULL, LEX_LOW ); }
 
-  | '(' e1 ')'             { $$ = $2 }
+  | '(' e1 ')'             { $$ = $2; }
 
-  | LEX_NUMBER             { $$ = EmptyExpr; $$.uValue = $1 & 0xFFFF; $$.rType = RELOC_CONST }
-  | LEX_STRING             { $$ = EmptyExpr; $$.uValue = StringToWord(); $$.rType = RELOC_CONST }
+  | LEX_NUMBER             { $$ = EmptyExpr; $$.uValue = $1 & 0xFFFF; $$.rType = RELOC_CONST; }
+  | LEX_STRING             { $$ = EmptyExpr; $$.uValue = StringToWord(); $$.rType = RELOC_CONST; }
   | LEX_IDENT              { MakeIdent( &$$, $1 ); }
   | LEX_ARN
-    { $$ = EmptyExpr; $$.uValue = $1 + (Using << 3); $$.seg = O51_DSEG; $$.rType = RELOC_CONST }
+    { $$ = EmptyExpr; $$.uValue = $1 + (Using << 3); $$.seg = O51_DSEG; $$.rType = RELOC_CONST; }
   | LEX_DOLLAR
     {
       $$ = EmptyExpr;

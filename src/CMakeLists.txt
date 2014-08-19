@@ -15,6 +15,7 @@ configure_file(
   "${PROJECT_BINARY_DIR}/config.h"
 )
 include_directories("${PROJECT_BINARY_DIR}")
+include_directories("${PROJECT_SOURCE_DIR}")
 
 add_executable(gentbl gentbl.c)
 add_executable(genup genup.c)
@@ -35,11 +36,18 @@ add_custom_command(
   COMMAND generr < ${PROJECT_SOURCE_DIR}/errmsg.txt > ${PROJECT_BINARY_DIR}/errmsg.inc
   DEPENDS generr
 )
+add_custom_command(
+  OUTPUT ${PROJECT_BINARY_DIR}/a_tab.c ${PROJECT_BINARY_DIR}/a_tab.h
+  COMMAND bison -d ${PROJECT_SOURCE_DIR}/a.y -o ${PROJECT_BINARY_DIR}/a_tab.c
+  DEPENDS ${PROJECT_SOURCE_DIR}/a.y
+)
 
 set(files 
-  amain.c  asm.c  a_tab.c  cmdtab.c  err.c  ident.c
+  amain.c  asm.c  cmdtab.c  err.c  ident.c
   idtab.c  minilex.c  scan.c  genobj.c xref.c
-  misc.c ltoa.c debug.c findf.c
+  misc.c debug.c findf.c
+  ${PROJECT_BINARY_DIR}/a_tab.c
+  ${PROJECT_BINARY_DIR}/a_tab.h
   ${PROJECT_BINARY_DIR}/ctbl.inc
   ${PROJECT_BINARY_DIR}/uptab.inc
   ${PROJECT_BINARY_DIR}/errmsg.inc
