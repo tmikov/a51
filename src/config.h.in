@@ -1,0 +1,6 @@
+#cmakedefine HAVE_STRUPR
+#cmakedefine HAVE_STRICMP
+#cmakedefine HAVE__STRICMP
+#cmakedefine HAVE_ULTOA
+#cmakedefine HAVE_LTOA
+#cmakedefine HAVE_ITOA

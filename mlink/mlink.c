@@ -19,13 +19,13 @@ FILE * fOutFile;
 ////////////////////////////////////////////////////////////////////////////
 // local data
 
-static const char szInputExt[]  = ".OBJ";
-static const char szOutputExt[] = ".BIN";
+static const char szInputExt[]  = ".obj";
+static const char szOutputExt[] = ".bin";
 
 static BOOL bHaveFile = FALSE;
-char szInputFile[_MAX_PATH];
-char szOutputFile[_MAX_PATH];
-char szBareInputName[_MAX_FNAME];
+char * szInputFile = NULL;
+char * szOutputFile = NULL;
+char * szBareInputName = NULL;
 static jmp_buf  ErrJmpBuf;  // used on exit on fatal errors
 
 //--------------------------------------------------------------------------
@@ -86,29 +86,40 @@ static void ProcessOption ( char * szOption )
 static void BuildFileNames ( void )
 {
   char * p;
+  char * outn, * bare;
 
   // check if the input file has an extension
   if (p = strrchr( szInputFile, '.' ))
   {
     // copy the inname to outname without the extension
-    memcpy( szOutputFile, szInputFile, p - szInputFile );
-    szOutputFile[p - szInputFile] = 0;  // terminate the string
+    outn = (char *)malloc( p - szInputFile + sizeof(szOutputExt) );
+    memcpy( outn, szInputFile, p - szInputFile );
+    outn[p - szInputFile] = 0;  // terminate the string
   }
   else
   {
-    strcpy( szOutputFile, szInputFile );
-    // input has no extension, so we have to add one 
-    strcat( szInputFile, szInputExt );
+    char * inn;
+    outn = (char *)malloc( strlen(szInputFile) + sizeof(szOutputExt) );
+    strcpy( outn, szInputFile );
+
+    // input has no extension, so we have to add one
+    inn = (char *)malloc( strlen(szInputFile) + sizeof(szInputExt) );
+    strcat( strcpy(inn, szInputFile), szInputExt );
+    free( szInputFile );
+    szInputFile = inn;
   }
 
   // now is the time to set szBareInputName
   // search for a '\\' or ':' which ever comes first
-  p = strchr( szOutputFile, 0 ); // go to end
-  while (p > szOutputFile && p[-1] != ':' && p[-1] != '\\')
+  p = strchr( outn, 0 ); // go to end
+  while (p > outn && p[-1] != ':' && p[-1] != '\\' && p[-1] != '/')
     --p;
-  strcpy( szBareInputName, p );
+  free( szBareInputName );
+  szBareInputName = strdup( p );
   
-  strcat( szOutputFile, szOutputExt );
+  strcat( outn, szOutputExt );
+  free( szOutputFile );
+  szOutputFile = outn;
 };
 
 static void ProcessCmdLine ( int argc, char ** argv )
@@ -127,7 +138,7 @@ static void ProcessCmdLine ( int argc, char ** argv )
       else
       {
         bHaveFile = TRUE;
-        strcpy( szInputFile, argv[i] );
+        szInputFile = strdup(argv[i]);
       }
     }
   }

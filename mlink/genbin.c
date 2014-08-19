@@ -66,7 +66,7 @@ static void ProcessCode ( void )
   lastCodeOffset = ReadWord();
   lastCode = buffer + lastCodeOffset;
   Read( lastCode, len );
-  printf( "%04X: Code at: %04Xh  Size: %d\n", pos, lastCodeOffset, len );
+  printf( "%04lX: Code at: %04Xh  Size: %d\n", pos, lastCodeOffset, len );
 
   if (lastCodeOffset + len > bufUsed)
     bufUsed = lastCodeOffset + len;
@@ -145,7 +145,7 @@ void Process ( void )
       ProcessFixup();
     else
     {
-      printf( "%04X: Skipping: block(%d), size(%d)\n", pos, hdr.blkType, hdr.blkLength );
+      printf( "%04lX: Skipping: block(%d), size(%d)\n", pos, hdr.blkType, hdr.blkLength );
       fseek( fInFile, hdr.blkLength - OBJ_BLOCK_HEADER_SIZE, SEEK_CUR );
     }
   }

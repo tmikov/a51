@@ -432,7 +432,7 @@ static void PrintLstSymbols ( void )
         lastSeg = symbols[i]->e.seg;
 
         fprintf( ListFile, "\r\n\r\nSymbols in %s\r\n", pszSegmentNames[lastSeg] );
-        fprintf( ListFile, "\r\n%-*s  %04s\r\n",
+        fprintf( ListFile, "\r\n%-*s  %4s\r\n",
                 maxNameLen, "Name", "Value" );
         fprintf( ListFile, "---------------------------------------------------------------------\r\n" );
       }
@@ -449,7 +449,7 @@ static void PrintLstSymbols ( void )
   if (bMakeLST)
   {
     fprintf( ListFile, "\r\n\r\nList of all symbols by name\r\n" );
-    fprintf( ListFile, "\r\n%-*s  %04s %-5s  %-12s\r\n",
+    fprintf( ListFile, "\r\n%-*s  %4s %-5s  %-12s\r\n",
             maxNameLen, "Name", "Value", "Type", "File" );
     fprintf( ListFile, "---------------------------------------------------------------------\r\n" );
 
@@ -486,7 +486,7 @@ static void PrintLstSymbols ( void )
         {
           fprintf( ListFile, "** Warning: Following symbols were defined but never used:\r\n" );
           hasTitle = TRUE;
-          fprintf( ListFile, "\r\n%-*s  %04s %-5s  %-12s\r\n",
+          fprintf( ListFile, "\r\n%-*s  %4s %-5s  %-12s\r\n",
                   maxNameLen, "Name", "Value", "Type", "File" );
           fprintf( ListFile, "---------------------------------------------------------------------\r\n" );
         }

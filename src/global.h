@@ -1,6 +1,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include "config.h"
+
 ////////////////////////////////////////////////////////////////////
 // Standart Windows compatible type definitions
 
@@ -135,6 +137,7 @@ extern BOOL bDebugTraceEnabled;
 
 #define INTEL_BYTE_ORDER  1
 
+#if 0
 // The section below is used to iron out the diferences between various
 // compilers I have used. The general case is the last.
 //
@@ -177,6 +180,27 @@ char * ltoa ( long num, char * res, int radix );
 char * itoa ( int num, char * res, int radix );
 
 int _stricmp ( const char * dst, const char * src  );
+char * strupr ( char * s );
+#endif
+#endif
+
+#ifndef HAVE_ULTOA
+char * ultoa ( unsigned long num, char * res, int radix );
+#endif
+#ifndef HAVE_LTOA
+char * ltoa ( long num, char * res, int radix );
+#endif
+#ifndef HAVE_ITOA
+char * itoa ( int num, char * res, int radix );
+#endif
+#ifndef HAVE__STRICMP
+  #ifdef HAVE_STRICMP
+    #define _stricmp stricmp 
+  #else
+int _stricmp ( const char * dst, const char * src  );
+  #endif
+#endif
+#ifndef HAVE_STRUPR
 char * strupr ( char * s );
 #endif
 
