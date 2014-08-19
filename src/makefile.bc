@@ -9,10 +9,6 @@
 #   - to produce a beta version : "make DEBUG=1"
 #   wil be compiled with debug flags, but not debug info
 #
-# NOTE:
-#   If you change "a.y" you must copy BISON.SIM from this directory
-#   over the original BISON.SIM. The original would be in
-#   /usr/lib/ or /djgpp/lib  (Linux or DOS respectively)
 ##############################################################################
 
 CC = bcc
@@ -30,13 +26,13 @@ OBJS = amain.obj  asm.obj  a_tab.obj  cmdtab.obj  err.obj  ident.obj \
 # -N     Check stack overflow
 # -O2    Optimize for speed
 # -d     Merge duplicate strings
-# -mc    Compact model : far data pointers, near code pointers 
+# -mc    Compact model : far data pointers, near code pointers
 ###########################
 
-COMMONF = -d -mc
+COMMONF = -d -mc -DCONFIG_H="bc-dos\config.h" -Igen
 
 !IFNDEF DEBUG
-CFLAGS = $(COMMONF) -O2 
+CFLAGS = $(COMMONF) -O2
 !ELSE
 !IF $(DEBUG) == 0
 CFLAGS = $(COMMONF) -N -Ff -v -y -D_DEBUG -DA_DEBUG -DHEAP_DBG=0 -DYYDEBUG=1
@@ -52,31 +48,34 @@ LFLAGS = $(CFLAGS)
 
 all: a51.exe
 
-a51.exe : ctbl.inc uptab.inc errmsg.inc a_tab.h $(OBJS)
+a_tab.obj: gen/a_tab.c
+	$(CC) $(CFLAGS) -c gen/a_tab.c
+
+a51.exe : gen/ctbl.inc gen/uptab.inc gen/errmsg.inc gen/a_tab.h $(OBJS)
 	$(CC) $(LFLAGS) -e$@ @&&|
 $(OBJS)
 |
 
-ctbl.inc : gentbl.exe
-	gentbl > ctbl.inc
+#ctbl.inc : gentbl.exe
+#	gentbl > ctbl.inc
+#
+#uptab.inc : genup.exe
+#	genup > uptab.inc
+#
+#errmsg.inc : errmsg.txt generr.exe
+#	generr < errmsg.txt > errmsg.inc
 
-uptab.inc : genup.exe
-	genup > uptab.inc
-
-errmsg.inc : errmsg.txt generr.exe
-	generr < errmsg.txt > errmsg.inc
-
-a_tab.c a_tab.h : a.y
-	bison -d a.y -o a_tab.c
-
-gentbl.exe : gentbl.c
-	$(CC) -egentbl.exe gentbl.c
-
-genup.exe : genup.c
-	$(CC) -egenup.exe genup.c
-
-generr.exe : generr.c
-	$(CC) -egenerr.exe generr.c
+#a_tab.c a_tab.h : a.y
+#	bison -d a.y -o a_tab.c
+#
+#gentbl.exe : gentbl.c
+#	$(CC) $(COMMONF) -egentbl.exe gentbl.c
+#
+#genup.exe : genup.c
+#	$(CC) $(COMMONF) -egenup.exe genup.c
+#
+#generr.exe : generr.c
+#	$(CC) $(COMMONF) -egenerr.exe generr.c
 
 clean :
 	del *.obj

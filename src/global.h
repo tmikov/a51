@@ -1,7 +1,11 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include "config.h"
+#ifndef CONFIG_H
+#define CONFIG_H "config.h"
+#endif
+
+#include CONFIG_H
 
 ////////////////////////////////////////////////////////////////////
 // Standart Windows compatible type definitions
