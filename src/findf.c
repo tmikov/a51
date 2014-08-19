@@ -1,6 +1,10 @@
 #include "global.h"
 #include "findf.h"
+#ifdef HAVE_DIRENT
 #include <dirent.h>
+#else
+#include "dirent.h"
+#endif
 
 struct FF_DAT
 {

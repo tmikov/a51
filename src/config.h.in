@@ -4,3 +4,4 @@
 #cmakedefine HAVE_ULTOA
 #cmakedefine HAVE_LTOA
 #cmakedefine HAVE_ITOA
+#cmakedefine HAVE_DIRENT

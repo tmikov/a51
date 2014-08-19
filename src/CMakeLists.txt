@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 project(a51)
 
 include(CheckFunctionExists)
+include(CheckIncludeFiles)
 
 check_function_exists(strupr HAVE_STRUPR)
 check_function_exists(stricmp HAVE_STRICMP)
@@ -9,6 +10,12 @@ check_function_exists(_stricmp HAVE__STRICMP)
 check_function_exists(ultoa HAVE_ULTOA)
 check_function_exists(ltoa HAVE_LTOA)
 check_function_exists(itoa HAVE_ITOA)
+check_include_files(dirent.h HAVE_DIRENT_H)
+check_function_exists(opendir HAVE_OPENDIR)
+
+if (HAVE_DIRENT_H AND HAVE_OPENDIR)
+  set(HAVE_DIRENT ON)
+endif (HAVE_DIRENT_H AND HAVE_OPENDIR)
 
 configure_file(
   "${PROJECT_SOURCE_DIR}/config.h.in"
@@ -22,6 +29,11 @@ set(files
   idtab.c  minilex.c  scan.c  genobj.c xref.c
   misc.c debug.c findf.c
 )
+
+# dirent implementation for Win32
+if (NOT HAVE_DIRENT)
+  set(files ${files} dirent.c dirent.h)
+endif (NOT HAVE_DIRENT)
 
 option(GENERATE_SRC
        "Re-generate sources instead of using packaged ones" ON)
