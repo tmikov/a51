@@ -16,10 +16,33 @@ configure_file(
 )
 include_directories("${PROJECT_BINARY_DIR}")
 
+add_executable(gentbl gentbl.c)
+add_executable(genup genup.c)
+add_executable(generr generr.c)
+
+add_custom_command(
+  OUTPUT ${PROJECT_BINARY_DIR}/ctbl.inc
+  COMMAND gentbl > ${PROJECT_BINARY_DIR}/ctbl.inc
+  DEPENDS gentbl
+)
+add_custom_command(
+  OUTPUT ${PROJECT_BINARY_DIR}/uptab.inc
+  COMMAND genup > ${PROJECT_BINARY_DIR}/uptab.inc
+  DEPENDS genup
+)
+add_custom_command(
+  OUTPUT ${PROJECT_BINARY_DIR}/errmsg.inc
+  COMMAND generr < ${PROJECT_SOURCE_DIR}/errmsg.txt > ${PROJECT_BINARY_DIR}/errmsg.inc
+  DEPENDS generr
+)
+
 set(files 
   amain.c  asm.c  a_tab.c  cmdtab.c  err.c  ident.c
   idtab.c  minilex.c  scan.c  genobj.c xref.c
   misc.c ltoa.c debug.c findf.c
+  ${PROJECT_BINARY_DIR}/ctbl.inc
+  ${PROJECT_BINARY_DIR}/uptab.inc
+  ${PROJECT_BINARY_DIR}/errmsg.inc
 )
 
 if (NOT HAVE_STRUPR)
