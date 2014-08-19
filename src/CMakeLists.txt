@@ -17,41 +17,59 @@ configure_file(
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}")
 
-add_executable(gentbl gentbl.c)
-add_executable(genup genup.c)
-add_executable(generr generr.c)
-
-add_custom_command(
-  OUTPUT ${PROJECT_BINARY_DIR}/ctbl.inc
-  COMMAND gentbl > ${PROJECT_BINARY_DIR}/ctbl.inc
-  DEPENDS gentbl
-)
-add_custom_command(
-  OUTPUT ${PROJECT_BINARY_DIR}/uptab.inc
-  COMMAND genup > ${PROJECT_BINARY_DIR}/uptab.inc
-  DEPENDS genup
-)
-add_custom_command(
-  OUTPUT ${PROJECT_BINARY_DIR}/errmsg.inc
-  COMMAND generr < ${PROJECT_SOURCE_DIR}/errmsg.txt > ${PROJECT_BINARY_DIR}/errmsg.inc
-  DEPENDS generr
-)
-add_custom_command(
-  OUTPUT ${PROJECT_BINARY_DIR}/a_tab.c ${PROJECT_BINARY_DIR}/a_tab.h
-  COMMAND bison -d ${PROJECT_SOURCE_DIR}/a.y -o ${PROJECT_BINARY_DIR}/a_tab.c
-  DEPENDS ${PROJECT_SOURCE_DIR}/a.y
-)
-
-set(files 
+set(files
   amain.c  asm.c  cmdtab.c  err.c  ident.c
   idtab.c  minilex.c  scan.c  genobj.c xref.c
   misc.c debug.c findf.c
-  ${PROJECT_BINARY_DIR}/a_tab.c
-  ${PROJECT_BINARY_DIR}/a_tab.h
-  ${PROJECT_BINARY_DIR}/ctbl.inc
-  ${PROJECT_BINARY_DIR}/uptab.inc
-  ${PROJECT_BINARY_DIR}/errmsg.inc
 )
+
+option(GENERATE_SRC
+       "Re-generate sources instead of using packaged ones" ON)
+
+if (GENERATE_SRC)
+    add_executable(gentbl gentbl.c)
+    add_executable(genup genup.c)
+    add_executable(generr generr.c)
+
+    add_custom_command(
+      OUTPUT ${PROJECT_BINARY_DIR}/ctbl.inc
+      COMMAND gentbl > ${PROJECT_BINARY_DIR}/ctbl.inc
+      DEPENDS gentbl
+    )
+    add_custom_command(
+      OUTPUT ${PROJECT_BINARY_DIR}/uptab.inc
+      COMMAND genup > ${PROJECT_BINARY_DIR}/uptab.inc
+      DEPENDS genup
+    )
+    add_custom_command(
+      OUTPUT ${PROJECT_BINARY_DIR}/errmsg.inc
+      COMMAND generr < ${PROJECT_SOURCE_DIR}/errmsg.txt > ${PROJECT_BINARY_DIR}/errmsg.inc
+      DEPENDS generr
+    )
+    add_custom_command(
+      OUTPUT ${PROJECT_BINARY_DIR}/a_tab.c ${PROJECT_BINARY_DIR}/a_tab.h
+      COMMAND bison -d ${PROJECT_SOURCE_DIR}/a.y -o ${PROJECT_BINARY_DIR}/a_tab.c
+      DEPENDS ${PROJECT_SOURCE_DIR}/a.y
+    )
+
+    set(files ${files}
+      ${PROJECT_BINARY_DIR}/a_tab.c
+      ${PROJECT_BINARY_DIR}/a_tab.h
+      ${PROJECT_BINARY_DIR}/ctbl.inc
+      ${PROJECT_BINARY_DIR}/uptab.inc
+      ${PROJECT_BINARY_DIR}/errmsg.inc
+    )
+else(GENERATE_SRC)
+    include_directories("${PROJECT_SOURCE_DIR}/gen")
+
+    set(files ${files}
+      ${PROJECT_SOURCE_DIR}/gen/a_tab.c
+      ${PROJECT_SOURCE_DIR}/gen/a_tab.h
+      ${PROJECT_SOURCE_DIR}/gen/ctbl.inc
+      ${PROJECT_SOURCE_DIR}/gen/uptab.inc
+      ${PROJECT_SOURCE_DIR}/gen/errmsg.inc
+    )
+endif(GENERATE_SRC)
 
 if (NOT HAVE_STRUPR)
 set(files ${files} strupr.c)
