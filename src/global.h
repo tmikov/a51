@@ -208,5 +208,8 @@ int _stricmp ( const char * dst, const char * src  );
 #ifndef HAVE_STRUPR
 char * strupr ( char * s );
 #endif
+#ifndef HAVE_STRLWR
+char * strlwr ( char * s );
+#endif
 
 #endif // GLOBAL_H

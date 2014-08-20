@@ -1,4 +1,5 @@
 #cmakedefine HAVE_STRUPR
+#cmakedefine HAVE_STRLWR
 #cmakedefine HAVE_STRICMP
 #cmakedefine HAVE__STRICMP
 #cmakedefine HAVE_ULTOA

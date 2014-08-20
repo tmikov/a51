@@ -3,7 +3,7 @@
 #ifdef HAVE_DIRENT
 #include <dirent.h>
 #else
-#include "dirent.h"
+#include "port/dirent.h"
 #endif
 
 struct FF_DAT
