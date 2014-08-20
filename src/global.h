@@ -84,6 +84,7 @@ typedef const char *   LPCTSTR;
 
 ////////////////////// All include files ////////////////////////
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 #include <malloc.h>
