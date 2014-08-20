@@ -6,8 +6,8 @@
 #endif
 
 #include "common/global.h"
-#include "clist.h"
-#include "misc.h"
+#include "common/clist.h"
+#include "common/misc.h"
 
 /*
   If HEAP_DBG is defined the heap checking is activated.

@@ -1,7 +1,7 @@
 set(files
   amain.c  asm.c  cmdtab.c  err.c  ident.c
   idtab.c  minilex.c  scan.c  genobj.c xref.c
-  misc.c debug.c findf.c
+  findf.c
 )
 
 option(GENERATE_SRC
@@ -56,4 +56,4 @@ endif(GENERATE_SRC)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_executable(a51 ${files})
-target_link_libraries(a51 port)
+target_link_libraries(a51 port common)

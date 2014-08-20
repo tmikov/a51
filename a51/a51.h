@@ -1,5 +1,5 @@
 #include "list.h"
-#include "misc.h"
+#include "common/misc.h"
 #include "scan.h"
 #include "xref.h"
 #include "a51/obj51.h"

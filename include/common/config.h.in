@@ -6,5 +6,6 @@
 #cmakedefine HAVE_LTOA
 #cmakedefine HAVE_ITOA
 #cmakedefine HAVE_DIRENT
+#cmakedefine HAVE_FILELENGTH
 #define _INT_SIZE   ${_INT_SIZE}
 #define _LONG_SIZE  ${_LONG_SIZE}
