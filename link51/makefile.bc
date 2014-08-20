@@ -1,0 +1,23 @@
+#àlink51.mak
+
+!ifdef _DEBUG
+BCCFLAGS = /mc /v /r- /1 /D_DEBUG /DHEAP_DBG=1
+!else
+BCCFLAGS = /mc /O1 /N- /1
+!endif
+
+BCCFLAGS=$(BCCFLAGS) -I../include -L../lib/common -DCONFIG_H="common/bc-dos/config.h"
+
+.autodepend
+
+.c.obj:
+  bcc.exe /c $(BCCFLAGS) $<
+
+link51.exe: link51.obj err.obj collect.obj readrex.obj process.obj symbols.obj segments.obj output.obj map.obj
+  bcc $(BCCFLAGS) -elink51.exe common.lib @&&|
+link51.obj err.obj collect.obj
+readrex.obj process.obj
+symbols.obj segments.obj output.obj
+map.obj
+|
+

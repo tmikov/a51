@@ -1,0 +1,50 @@
+.AUTODEPEND
+
+#		*Translator Definitions*
+CC = bcc +MAKEFILE.CFG
+TASM = TASM
+TLIB = tlib
+TLINK = tlink
+LIBPATH = 
+INCLUDEPATH = C:\BC31\INCLUDE;..\..\INCLUDE
+
+
+#		*Implicit Rules*
+.c.obj:
+  $(CC) -c {$< }
+
+.cpp.obj:
+  $(CC) -c {$< }
+
+#		*List Macros*
+
+
+LIB_dependencies =  \
+ debug.obj \
+ misc.obj
+
+#		*Explicit Rules*
+common.lib: makefile.cfg $(LIB_dependencies)
+  - del common.lib
+  $(TLIB) $<  @&&|
+-+debug.obj &
+-+misc.obj
+|
+
+
+#		*Individual File Dependencies*
+debug.obj: makefile.cfg debug.c 
+
+misc.obj: makefile.cfg misc.c 
+
+#		*Compiler Configuration File*
+makefile.cfg: makefile.bc
+  copy &&|
+-mc
+-O1
+-I$(INCLUDEPATH)
+-L$(LIBPATH)
+-DCONFIG_H="common\bc-dos\config.h"
+| makefile.cfg
+
+

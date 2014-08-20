@@ -15,7 +15,7 @@ CC = bcc
 
 OBJS = amain.obj  asm.obj  a_tab.obj  cmdtab.obj  err.obj  ident.obj \
        idtab.obj  minilex.obj  scan.obj  genobj.obj xref.obj \
-       misc.obj debug.obj findf.obj
+       findf.obj
 
 ###########################
 # Description of options
@@ -41,7 +41,7 @@ CFLAGS = $(COMMONF) -N -Ff -D_DEBUG -DA_DEBUG -DYYDEBUG=1
 !ENDIF
 !ENDIF
 
-LFLAGS = $(CFLAGS)
+LFLAGS = $(CFLAGS) -L../lib/common
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<
@@ -52,7 +52,7 @@ a_tab.obj: gen/a_tab.c
 	$(CC) $(CFLAGS) -c gen/a_tab.c
 
 a51.exe : gen/ctbl.inc gen/uptab.inc gen/errmsg.inc gen/a_tab.h $(OBJS)
-	$(CC) $(LFLAGS) -e$@ @&&|
+	$(CC) $(LFLAGS) -e$@ common.lib @&&|
 $(OBJS)
 |
 
