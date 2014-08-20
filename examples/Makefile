@@ -1,15 +1,21 @@
 #BUILD=../b
 A51=$(BUILD)/a51/a51
-MLINK=$(BUILD)/mlink/mlink
+LINK51=$(BUILD)/link51/link51
 
 AFLAGS=-l -c
+LFLAGS=-Th -m
 
 %.obj : %.a51
 	$(A51) $(AFLAGS) $<
 
-simple.bin: simple.obj
-	$(MLINK) $<
+all: simple.hex mod.hex
+
+simple.hex: simple.obj
+	$(LINK51) $(LFLAGS) -o$@ $<
+
+mod.hex: mod1.obj mod2.obj
+	$(LINK51) $(LFLAGS) -o$@ $^
 
 clean:
-	rm -f *.bin *.obj *.lst
+	rm -f *.bin *.hex *.obj *.lst *.map
 
