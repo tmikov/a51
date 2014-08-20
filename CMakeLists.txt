@@ -14,6 +14,7 @@ check_function_exists(ltoa HAVE_LTOA)
 check_function_exists(itoa HAVE_ITOA)
 check_include_files(dirent.h HAVE_DIRENT_H)
 check_function_exists(opendir HAVE_OPENDIR)
+check_function_exists(filelength HAVE_FILELENGTH)
 check_type_size("int" _INT_SIZE)
 check_type_size("long" _LONG_SIZE)
 
@@ -32,4 +33,5 @@ add_subdirectory(lib/port)
 add_subdirectory(lib/common)
 add_subdirectory(mlink)
 add_subdirectory(a51)
+add_subdirectory(link51)
 

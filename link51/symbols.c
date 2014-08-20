@@ -4,12 +4,14 @@
 Public & extern symbols processing functions
 */
 
-#include "global.h"
+#include "common/global.h"
 #pragma	hdrstop
 
 #include "link51.h"
 
+#ifdef HAVE_IO_H
 #include <io.h>
+#endif
 
 struct Collect ExternsCollection;  /* of ExternDefData */
 struct Collect PublicsCollection;  /* of PublicDefData */
@@ -23,7 +25,7 @@ static struct Collect PreviewExternsCollection;  /* of ExternDefData */
 struct Collect NamesCollection;	/* of strings */
 static TObjStart strt;
 static long startpos, pos;
-static char szInputFile[_MAX_PATH];
+static char szInputFile[FILENAME_MAX];
 
 /* ************************************************************************
    Function: ReadString
@@ -131,7 +133,7 @@ int cmpsymbols(const void *s1, const void *s2)
   if (bCaseSensitive)
     return (strcmp(e1->psSymbolName, e2->psSymbolName));
   else
-    return (_strcmpi(e1->psSymbolName, e2->psSymbolName));
+    return (_stricmp(e1->psSymbolName, e2->psSymbolName));
 }
 
 /* ************************************************************************
@@ -679,7 +681,20 @@ static void SelectLibSymbols(void)
 */
 static long flen(FILE *f)
 {
+#ifdef HAVE_FILELENGTH
   return (filelength(fileno(f)));
+#else
+  long res;
+  long oldpos = ftell(f);
+  if (oldpos < 0)
+    return -1;
+  if (fseek(f, 0, SEEK_END) < 0)
+    return -1;
+  res = ftell(f);
+  if (fseek(f, oldpos, SEEK_SET) < 0)
+    return -1;
+  return res;
+#endif
 }
 
 /* ************************************************************************

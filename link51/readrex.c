@@ -1,11 +1,11 @@
 /* readrex.c */
 
-#include "global.h"
+#include "common/global.h"
 #pragma	hdrstop
 
 #include "link51.h"
 #include "err.h"
-#include "obj51.h"
+#include "a51/obj51.h"
 
 FILE *InFile = NULL;
 struct TObjBlockHeader hdr;

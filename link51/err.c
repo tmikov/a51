@@ -1,8 +1,8 @@
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 #define ERR_MODULE
 #include "err.h"
-#include "misc.h"
+#include "common/misc.h"
 
 int  NumErrors;
 int  NumWarnings;

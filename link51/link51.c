@@ -1,6 +1,6 @@
 /* link51.c */
 
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 
 #include "link51.h"
@@ -18,8 +18,8 @@ BOOL fDumpFixups = FALSE;
 #endif
 
 UINT OutputFile = OUTPUT_BIN;
-char szOutputFileName[_MAX_PATH];
-char szMapFileName[_MAX_PATH];
+char szOutputFileName[FILENAME_MAX];
+char szMapFileName[FILENAME_MAX];
 
 static const char szCFGName[] = "link51.cfg";
 static const char szObjExt[] = ".obj";
@@ -31,8 +31,8 @@ static const char szMapExt[] = ".map";
 struct Collect ObjFilesCollection;
 struct Collect LibFilesCollection;
 
-char szOutputDir[_MAX_PATH];
-char szLibDir[_MAX_PATH];
+char szOutputDir[FILENAME_MAX];
+char szLibDir[FILENAME_MAX];
 
 static FILE *CMDFile = NULL;   /* Response file or CFG file */
 
@@ -248,10 +248,10 @@ void AddObjExt(const char *name, char *dest)
 int DetectExt(const char *name)
 {
   char *p;
-  char ext[_MAX_PATH];
+  char ext[FILENAME_MAX];
 
   ASSERT(name != NULL);
-  ASSERT(strlen(name) < _MAX_PATH);
+  ASSERT(strlen(name) < FILENAME_MAX);
 
   p = strchr(name, '.');
   if (p == NULL)
@@ -279,7 +279,7 @@ int DetectExt(const char *name)
 */
 static void ProcessCmdToken(const char *token)
 {
-  char aname[_MAX_PATH];
+  char aname[FILENAME_MAX];
 
   ASSERT(token != NULL);
 
@@ -381,7 +381,7 @@ static void ProcessCFGFile(const char *exePath)
   /* If not in current directory search it in the dir of the executable */
   if ((CMDFile = fopen(szCFGName, "rt")) == NULL)
   {
-    char baseCfg[_MAX_PATH];
+    char baseCfg[FILENAME_MAX];
     char *p;
     int  len;
 
@@ -480,12 +480,12 @@ void AddOutputExt(const char *fullname, char *dest)
 void BuildOutputFileName(void)
 {
   char *p, *ext;
-  char szBareInputName[_MAX_PATH];
+  char szBareInputName[FILENAME_MAX];
   char *pszInputFile;
   UINT l;
   UINT lastpos;
-  char buf[_MAX_PATH];
-  char buf2[_MAX_PATH];
+  char buf[FILENAME_MAX];
+  char buf2[FILENAME_MAX];
 
   if (szOutputFileName[0] == '\0')
   {
@@ -544,7 +544,7 @@ int CDECL main(int argc, char *argv[])
     #endif
     "\n", VerMajor, VerMinor, VerBuild);
 
-  printf(Title);
+  printf("%s",Title);
 
   MaxErrors = 50;
   MaxWarnings = 50;
@@ -626,7 +626,7 @@ int CDECL main(int argc, char *argv[])
       fclose(InFile);
     if (OutFile)
       fclose(OutFile);
-    _unlink(szOutputFileName);
+    unlink(szOutputFileName);
   }
 
   return (res);

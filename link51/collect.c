@@ -1,11 +1,11 @@
 /* collect.c */
 
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 
 #include "collect.h"
 #include "err.h"
-#include "misc.h"
+#include "common/misc.h"
 
 /* ************************************************************************
    Function: InitCollect

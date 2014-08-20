@@ -5,9 +5,9 @@
 
 #include "collect.h"
 #include "c_list.h"
-#include "misc.h"
+#include "common/misc.h"
 #include "err.h"
-#include "obj51.h"
+#include "a51/obj51.h"
 
 #define LASTDATALEN 11
 #define LASTDATANAME "??LAST_DATA"
@@ -21,15 +21,14 @@ extern char *segnames[];
 extern BOOL bCaseSensitive;
 extern BOOL bSmartDSeg;
 
-
 /*
 nModuleName should be checked to be determined whether this
 is an obj file or obj module from a library.
 */
 struct ObjFileData
 {
-  char szObjName[_MAX_PATH];  /* Full object file name or name in library */
-  char szLibName[_MAX_PATH];  /* Library name if obj is a part of a library */
+  char szObjName[FILENAME_MAX];  /* Full object file name or name in library */
+  char szLibName[FILENAME_MAX];  /* Library name if obj is a part of a library */
   long nObjPos;  /* Absolute position in the library (if is a part of a lib) */
   int nModuleName;  /* Index in ModuleNameCollection (-1) not a module */
   /* Offsets for various 8051 segments for this objmodule */
@@ -42,13 +41,13 @@ struct ObjFileData
 
 struct LibFileData
 {
-  char szLibName[_MAX_PATH];
+  char szLibName[FILENAME_MAX];
   BOOL bScheduled;  /* The library is scheduled for linking */
 };
 
 extern UINT OutputFile;
-extern char szOutputFileName[_MAX_PATH];
-extern char szMapFileName[_MAX_PATH];
+extern char szOutputFileName[FILENAME_MAX];
+extern char szMapFileName[FILENAME_MAX];
 extern BYTE FillValue;
 extern struct Collect ObjFilesCollection;  /* of ObjFileData */
 extern struct Collect LibFilesCollection;  /* of LibFileData */

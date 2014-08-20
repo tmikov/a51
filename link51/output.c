@@ -4,7 +4,7 @@
 Generates final output file
 */
 
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 
 #include "link51.h"

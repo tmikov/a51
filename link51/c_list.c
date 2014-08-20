@@ -1,6 +1,6 @@
 /* clist.c */
 
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 
 #include "misc.h"

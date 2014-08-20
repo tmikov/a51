@@ -4,14 +4,14 @@
 Performs the fixups, final processings and output file generation.
 */
 
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 
 #include "link51.h"
 
 static TObjStart strt;
-static char szInputFile[_MAX_PATH];
-static char szModuleName[_MAX_PATH];
+static char szInputFile[FILENAME_MAX];
+static char szModuleName[FILENAME_MAX];
 static BOOL bIsModule;
 static long startpos, pos;
 static int nObjModule;
@@ -19,7 +19,7 @@ static BYTE *CodeChunk;  /* Last code chunk loaded */
 static WORD ChunkOffset;  /* Offset of the last code chunk */
 static char *pExternName;  /* The name of the last resolved extern */
 static int nExternSeg;  /* The segment of the last resolved extern */
-static char szExternModuleName[_MAX_PATH];  /* Name of the module where the extern is resolved */
+static char szExternModuleName[FILENAME_MAX];  /* Name of the module where the extern is resolved */
 
 struct Collect ExternDefs;  /* of TExternDef */
 struct Collect CodeChunksCollection;  /* of struct CodeChunks* */

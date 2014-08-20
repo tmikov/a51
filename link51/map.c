@@ -4,12 +4,12 @@
 Generates a map file of how the link has been done.
 */
 
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 
 #include "link51.h"
 
-static char szModuleName[_MAX_PATH];
+static char szModuleName[FILENAME_MAX];
 
 /* ************************************************************************
    Function: ComposeObjModuleName

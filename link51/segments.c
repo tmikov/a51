@@ -4,7 +4,7 @@
 Loads and calculates the absolute segment addresses
 */
 
-#include "global.h"
+#include "common/global.h"
 #pragma hdrstop
 
 #include "link51.h"
@@ -15,8 +15,8 @@ int LastData;
 
 static TObjStart strt;
 static long startpos, pos;
-static char szInputFile[_MAX_PATH];
-static char szModuleName[_MAX_PATH];
+static char szInputFile[FILENAME_MAX];
+static char szModuleName[FILENAME_MAX];
 static BOOL bIsModule;
 static int nObjModule;
 static long GlobalCSegOffset;  /* cseg fixup offset for the current module */
@@ -110,7 +110,7 @@ static void LoadSegments(void)
   int ISegSize;
   int BSegSize;
   #ifdef _DEBUG
-  char ModuleName[_MAX_PATH];
+  char ModuleName[FILENAME_MAX];
   #endif
 
   pObj = AtItem(&ObjFilesCollection, nObjModule);
