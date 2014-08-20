@@ -1,13 +1,16 @@
 #include "common/global.h"
 #pragma hdrstop
-#include <stdarg.h>
 
-static char szDebugLogName[] = "DEBUG.LOG";
+char szDebugLogName[FILENAME_MAX + 1] = "DEBUG.LOG";
+BOOL bDebugTraceEnabled = TRUE;
 static BOOL used = FALSE;
 
 void debug_trace ( const char * fmt, ... )
 {
   FILE * debugLog;
+
+  if (!bDebugTraceEnabled)
+    return;
 
   if (!used)    // if first call to debug_trace => create empty file
   {
@@ -27,4 +30,9 @@ void debug_trace ( const char * fmt, ... )
 
     va_end( ap );
   }
+  else
+  {
+    printf("Fatal: log file (%s) error - %s\n", szDebugLogName, sys_errlist[errno]);
+    abort();
+  };
 };

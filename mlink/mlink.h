@@ -1,4 +1,4 @@
-#include "obj51.h"
+#include "a51/obj51.h"
 
 extern FILE * fInFile;
 extern FILE * fOutFile;

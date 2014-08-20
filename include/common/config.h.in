@@ -1,0 +1,10 @@
+#cmakedefine HAVE_STRUPR
+#cmakedefine HAVE_STRLWR
+#cmakedefine HAVE_STRICMP
+#cmakedefine HAVE__STRICMP
+#cmakedefine HAVE_ULTOA
+#cmakedefine HAVE_LTOA
+#cmakedefine HAVE_ITOA
+#cmakedefine HAVE_DIRENT
+#define _INT_SIZE   ${_INT_SIZE}
+#define _LONG_SIZE  ${_LONG_SIZE}
