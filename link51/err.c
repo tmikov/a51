@@ -23,13 +23,13 @@ static void VPrintError ( int severity, const char * msg, va_list ap )
   if (severity < ERR_WARN0)
     fAnyErrors = TRUE;
 
-  printf( "%s: ",
+  fprintf( stderr, "%s: ",
           severity < _countof( szErrTitle ) ?
           szErrTitle[ severity ] :
           szErrTitle[ _countof( szErrTitle ) - 1 ] );
 
-  vprintf( msg, ap );
-  putchar( '\n' );
+  vfprintf( stderr, msg, ap );
+  fputc( '\n', stderr );
 
   va_end( ap );
 

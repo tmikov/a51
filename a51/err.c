@@ -25,7 +25,7 @@ static void VPrintError ( int severity, const char * msg, va_list ap, BOOL p1 )
 
   if (IncludeTop)
   {
-    printf( "%s %s %d: ",
+    fprintf( stderr, "%s %s %d: ",
             severity < _countof( szErrTitle ) ?
                szErrTitle[ severity ] :
                szErrTitle[ _countof( szErrTitle ) - 1 ],
@@ -33,15 +33,15 @@ static void VPrintError ( int severity, const char * msg, va_list ap, BOOL p1 )
   }
   else
   {
-    printf( "%s: ",
+    fprintf( stderr, "%s: ",
             severity < _countof( szErrTitle ) ?
             szErrTitle[ severity ] :
             szErrTitle[ _countof( szErrTitle ) - 1 ] );
   }
 
 
-  vprintf( msg, ap );
-  putchar( '\n' );
+  vfprintf( stderr, msg, ap );
+  fputc( '\n', stderr );
 
   va_end( ap );
 
