@@ -314,7 +314,14 @@ void ProcessFixup(void)
         p[0] = (p[0] & ~0xE0) | ((offset >> 3) & 0xE0);
         p[1] = offset;
         if ((offset & 0xF800) != ((ChunkOffset + f.target + 2) & 0xF800))
-          Fatal("Invalid 11 bit fixup");
+        {
+          if (bIsModule)
+            Error("%s(in lib: %s): invalid ACALL/AJMP at seg %04Xh ofs %04Xh (%04Xh)", szModuleName, szInputFile,
+                   ChunkOffset, f.target, ChunkOffset + f.target );
+          else
+            Error("%s: invalid ACALL/AJMP at seg %04Xh ofs %04Xh (%04Xh)", szInputFile,
+                   ChunkOffset, f.target, ChunkOffset + f.target );
+        }
 	#ifdef _DEBUG
 	if (fDumpFixups)
 	  TRACE1("FIXUP_AJMP    %#-6x", p[0] + (p[1] << 8));
