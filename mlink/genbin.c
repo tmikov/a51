@@ -108,8 +108,9 @@ static void ProcessFixup ( void )
       case FIXUP_AJMP:
         p[0] = (p[0] & ~0xE0) | (f.offset >> 3) & 0xE0;
         p[1] = f.offset;
-        if ((f.offset & 0xF800) != (lastCodeOffset + f.target + 2) & 0xF800)
-          FatalError( "Invalid 11 bit fixup" );
+        if ((f.offset & 0xF800) != ((lastCodeOffset + f.target + 2) & 0xF800))
+          FatalError( "Invalid ACALL/AJMP at seg %04Xh ofs %04Xh (%04Xh)",
+                      lastCodeOffset, f.target, lastCodeOffset + f.target );
         break;
     }
   }
