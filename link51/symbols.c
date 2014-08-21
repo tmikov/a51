@@ -611,7 +611,7 @@ static void SelectLibSymbols(void)
     {
       psModuleName = ((struct ObjFileData *)AtItem(
         &ObjFilesCollection, e->nObjFile))->szObjName;
-      printf("Unresolved extern %s from module %s\n", e->psSymbolName, psModuleName);
+      Error("Unresolved extern %s from module %s\n", e->psSymbolName, psModuleName);
     }
     else
     {
@@ -620,7 +620,7 @@ static void SelectLibSymbols(void)
       psLibName = ((struct LibFileData *)AtItem(
         &ObjFilesCollection, e->nLibFile))->szLibName;
       psModuleName = AtItem(&ModuleNamesCollection, e->nLibModule);
-      printf("Unresolved extern %s from module %s (lib: %s)\n", e->psSymbolName,
+      Error("Unresolved extern %s from module %s (lib: %s)\n", e->psSymbolName,
         psModuleName, psLibName);
     }
   }
