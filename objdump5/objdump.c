@@ -2,8 +2,8 @@
 
 #include <stdlib.h>
 #include <errno.h>
-#include "global.h"
-#include "obj51.h"
+#include "common/global.h"
+#include "a51/obj51.h"
 #include "collect.h"
 
 char *segments[6] = {"no seg", "cseg", "iseg", "bseg", "xseg", "dseg"};
@@ -124,31 +124,32 @@ void dump(void *buf, WORD sz)
    Description:
      Dumps a code block from memory on stdout
 */
-void DumpCode(void *buf, WORD sz)
+void DumpCode(void *buf_, WORD sz)
 {
   UINT i;
   void *buf2;
   WORD sz2;
   WORD sz3;
+  BYTE *buf = (BYTE *)buf_;
 
   sz3 = sz;
   while (sz > 0) {
     printf("  %04x: ", sz3 - sz);
     buf2 = buf;
     sz2 = sz;
-    for (i = 0; i < 16 && sz > 0; i++, sz--, ((BYTE *)buf)++)
-      printf("%02x ", *(BYTE *)buf);
+    for (i = 0; i < 16 && sz > 0; i++, sz--, buf++)
+      printf("%02x ", *buf);
     buf = buf2;
     sz = sz2;
     if (i < 16)
       for (; i < 16; i++)
         printf("%2c ", ' ');
     printf("    ");
-    for (i = 0; i < 16 && sz > 0; i++, sz--, ((BYTE *)buf)++)
-      if (*(BYTE *)buf < 0x20)
+    for (i = 0; i < 16 && sz > 0; i++, sz--, buf++)
+      if (*buf < 0x20)
         printf(".");
       else
-        printf("%c", *(BYTE *)buf);
+        printf("%c", *buf);
     printf("\n");
   };
 

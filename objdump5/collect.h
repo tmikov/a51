@@ -3,7 +3,7 @@
 #ifndef COLLECT
 #define COLLECT
 
-#include "global.h"
+#include "common/global.h"
 
 struct Collect {
   void **items;

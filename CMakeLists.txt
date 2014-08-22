@@ -34,4 +34,5 @@ add_subdirectory(lib/common)
 add_subdirectory(mlink)
 add_subdirectory(a51)
 add_subdirectory(link51)
+add_subdirectory(objdump5)
 
