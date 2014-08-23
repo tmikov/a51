@@ -281,7 +281,7 @@ void CalcPublics(void)
 
   /* Put __last_data offset */
   Key.psSymbolName = LASTDATANAME;
-  ASSERT(SearchItem(&PublicsCollection, &Key, &i, cmpsymbols));
+  VERIFY(SearchItem(&PublicsCollection, &Key, &i, cmpsymbols));
   pLastData = AtItem(&PublicsCollection, i);
   pLastData->offset = LastData;
 
