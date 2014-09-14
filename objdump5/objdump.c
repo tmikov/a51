@@ -229,9 +229,9 @@ BOOL ReadObjStart(void)
 */
 void ShowObjStart(void)
 {
-  printf("%04ld: START SECTION\n", fpos);
+  printf("%04ld: START SECTION\n", (long)fpos);
   printf("  file size: %lu\n  obj format version: %d.%02d\n",
-    objstart.objSize, objstart.verMaj, objstart.verMin);
+    (unsigned long)objstart.objSize, objstart.verMaj, objstart.verMin);
   dump(&objstart, sizeof(TObjStart));
 };
 
@@ -252,7 +252,7 @@ BOOL ReadBlkHdr(void)
     return (FALSE);
   if (!ReadObjBlockHeaderStruct(&BlkHdr, f))
     return (FALSE);
-  printf("\n%04lx: ", fpos);
+  printf("\n%04lx: ", (long)fpos);
   switch (BlkHdr.blkType) {
     case OBLK_MODNAME:
       printf("BLOCK MODULE NAME");
