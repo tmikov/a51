@@ -5,6 +5,7 @@
 #cmakedefine HAVE_ULTOA
 #cmakedefine HAVE_LTOA
 #cmakedefine HAVE_ITOA
+#cmakedefine HAVE_MALLOC_H
 #cmakedefine HAVE_DIRENT
 #cmakedefine HAVE_FILELENGTH
 #define _INT_SIZE   ${_INT_SIZE}

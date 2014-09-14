@@ -1,6 +1,5 @@
 /* collect.c */
 
-#include <malloc.h>
 #include "common/global.h"
 #include "collect.h"
 

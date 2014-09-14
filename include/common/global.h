@@ -91,7 +91,9 @@ typedef const char *   LPCTSTR;
 #include <stddef.h>
 #include <string.h>
 #include <stdio.h>
+#ifdef HAVE_MALLOC_H
 #include <malloc.h>
+#endif
 #include <errno.h>
 #include <assert.h>
 #include <limits.h>
