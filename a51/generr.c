@@ -16,7 +16,7 @@ int main ( void )
 
   printf( "#ifdef ERR_C\n\n" );
   printf( "static const char _DSPTR * ErrMsg[] =\n{\n" );
-  while (p = gets( buf ))
+  while (p = fgets( buf, sizeof(buf), stdin ))
   {
     // skip the leading spaces
     while (isspace( *p ))
