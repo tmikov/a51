@@ -32,7 +32,7 @@ void debug_trace ( const char * fmt, ... )
   }
   else
   {
-    printf("Fatal: log file (%s) error - %s\n", szDebugLogName, sys_errlist[errno]);
+    printf("Fatal: log file (%s) error - %s\n", szDebugLogName, strerror(errno));
     abort();
   };
 };
