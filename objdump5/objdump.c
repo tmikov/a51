@@ -804,7 +804,7 @@ int main(int argc, char *argv[])
   if (f == NULL) {
     showerror:
     if (!gerror)
-      printf("objdump error: %s\n", sys_errlist[errno]);
+      printf("objdump error: %s\n", strerror(errno));
     return (EXIT_FAILURE);
   };
 
