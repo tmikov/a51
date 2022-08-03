@@ -101,6 +101,9 @@ typedef const char *   LPCTSTR;
 #include <stdarg.h>
 #include <ctype.h>
 #include <sys/stat.h>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 ///////////////////////////////////////////////////////////////////
 // Useful macros
